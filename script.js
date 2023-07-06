@@ -1,6 +1,4 @@
-// When user clicks the start button, then a timer starts and user is presented with a question
-
-    // Declare global variables 
+//set variables
     var startBtn = document.getElementById("startBtn");
     var time = 75;
     var time_remaining = true;
@@ -16,12 +14,12 @@
     var correctAnswer = document.getElementById("correctAnswer");    
     var high_scores= [];
     var output="";
-    // Set score = 0 at the start of the game 
+    // 0 score to start
     var score = 0;
-    // question index
+    // questions
     let i = 0;
 
-// QUESTIONS ARRAY:
+// questions
 
 var questionsArray = [
 {
@@ -54,8 +52,6 @@ var questionsArray = [
     correctAnswer: 1
 }];
 
-//COUNTDOWN TIMER FUNCTION: set countdown timer and interval. Set time-related valiables.
-
 //change the seconds variable every second.
 var countdownTimerInterval = setInterval(setCountdownTimer, 1000);
 
@@ -67,12 +63,12 @@ function setCountdownTimer() {
         end_quiz();
         time = 0;    
         // clearInterval(countdownTimerInterval);
-        //alert user and stop quiz
+        //end quiz
         }
         document.getElementById("timer").innerHTML = time;
     }
 
-// START EVENT LISTENER: When user clicks Start button, start the countdown timer and quiz questions. Add an event listener to each button.
+//eventlistener functions
 startBtn.addEventListener("click", function() {
     quizContainer.style.display = "block";
     homeContainer.style.display ="none";
@@ -84,7 +80,7 @@ startBtn.addEventListener("click", function() {
     time_start= true;
 });
 
-// QUESTIONS FUNCTION: display questions and multiple-choice answers
+// displays questions
 
 function setQuizQuestions() {
         questionHeading.textContent = questionsArray[i].question;
@@ -94,9 +90,9 @@ function setQuizQuestions() {
         answerChoiceD.textContent = questionsArray[i].answerChoice[3]; 
         };
 
-// When user answers a question: then user is presented with another question
+// question following awnser
 
-// Store user answer choices. Clear elements and update score count.
+// stores choices, starts over
 
 // Change to next question
 answerChoiceA.addEventListener('click', function(event) {
@@ -112,13 +108,12 @@ answerChoiceA.addEventListener('click', function(event) {
                 },
                 1000
             );
-            // when user answers a question correctly, increase the score
-            score++;    
-            // display updated score progress
+            // correct awnser increase score
+            // display progress
             document.getElementById("score").innerHTML = score;
         } else {
             time_remaining -= 5;
-            // when user answers a question inccorrectly, subtract from the time
+            // incorrect subtracts score
             document.getElementById("AnswerResponse").innerHTML = "Incorrect! Better luck in the next one!";
             setTimeout(function() {
                 document.getElementById("AnswerResponse").innerHTML = "";
@@ -245,7 +240,7 @@ answerChoiceD.addEventListener('click', function(event) {
         
         function view_high_scores(){
         
-        // changing the screen output
+        // changes screen
             document.getElementById("quizContainer").style.display="none";
             document.getElementById("game_over").style.display= "none";
             document.getElementById("high_scores_page").style.display="block";
@@ -258,14 +253,14 @@ answerChoiceD.addEventListener('click', function(event) {
              clear_up();
         }
 
-        // refresh the site to the home container page
+        // starts over
         function go_home(){	
                 document.getElementById("high_scores_page").style.display= "none";
                 document.getElementById("homeContainer").style.display= "block";
                 clear_up();
         }
         
-        // clear the highscore
+        // clears score
         function clear_hs(){
             high_scores = [];
             // high_scores.splice(0, high_scores.length);
