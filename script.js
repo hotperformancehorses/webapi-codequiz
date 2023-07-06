@@ -223,3 +223,59 @@ answerChoiceD.addEventListener('click', function(event) {
 });
 
         //end
+        unction end_quiz(){
+            document.getElementById("game_over").style.display= "block";
+            document.getElementById("quizContainer").style.display="none";
+            document.getElementById("countdownTimer").style.display= "none";
+            document.getElementById("score_keeper").style.display= "none";
+            document.getElementById("AnswerResponse").innerHTML="";
+            document.getElementById("end_score").innerHTML= score;
+            }
+
+        //submit score and initals
+            function submit_score() {
+             high_scores.push(document.getElementById("initials").value + " " + score);
+             view_high_scores();
+            }
+
+        // localStorage.setItem("score",JSON.stringify(AnswerResponse));
+        // localStorage.setItem("initials", JSON.stringify(initials));
+        
+        function view_high_scores(){
+        
+        // changing the screen output
+            document.getElementById("quizContainer").style.display="none";
+            document.getElementById("game_over").style.display= "none";
+            document.getElementById("high_scores_page").style.display="block";
+        
+            output="";
+            for(let k=0; k<high_scores.length; k++){
+                 output = output + "  " + high_scores[k];
+            }
+            document.getElementById("high_scores").innerHTML= output;                
+             clear_up();
+        }
+
+        // refresh the site to the home container page
+        function go_home(){	
+                document.getElementById("high_scores_page").style.display= "none";
+                document.getElementById("homeContainer").style.display= "block";
+                clear_up();
+        }
+        
+        // clear the highscore
+        function clear_hs(){
+            high_scores = [];
+            // high_scores.splice(0, high_scores.length);
+          }
+        
+        // refresh the site 
+        function clear_up(){
+        
+        time=75;
+        time_remaining=true;
+        time_start=false;
+        i=0;
+        score=0;
+        }
+        // finish
