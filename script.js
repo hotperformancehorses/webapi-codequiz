@@ -1,27 +1,34 @@
 // Declare global variables 
-const startBtn = document.querySelector("#startBtn");
+const startBtn = document.getElementById("startBtn");
 let time = 75;
 let timeRemaining = true;
 let timeStart = false;
-const countdownTimer = document.querySelector("#countdownTimer");
-const homeContainer = document.querySelector("#homeContainer");
-const quizContainer = document.querySelector("#quizContainer");
-const questionHeading = document.querySelector("#questionHeading");
-const answerChoices = document.querySelectorAll(".answerChoice");
-const correctAnswer = document.querySelector("#correctAnswer");
-const scoreElement = document.querySelector("#score");
-
-// Set score = 0 at the start of the game 
+const countdownTimer = document.getElementById("countdownTimer");
+const homeContainer = document.getElementById("homeContainer");
+const quizContainer = document.getElementById("quizContainer");
+const questionHeading = document.getElementById("questionHeading");
+const answerChoiceA = document.getElementById("answerChoiceA");
+const answerChoiceB = document.getElementById("answerChoiceB");
+const answerChoiceC = document.getElementById("answerChoiceC");
+const answerChoiceD = document.getElementById("answerChoiceD");
+const correctAnswer = document.getElementById("correctAnswer");
+const highScores = [];
+let output = "";
 let score = 0;
-// question index
-let i = 0;
+let questionIndex = 0;
 
 // QUESTIONS ARRAY:
 const questionsArray = [
-  // questions data...
+  {
+    question: "Question: What is the HTML tag under which you can write the JavaScript code?",
+    imageSrc: "",
+    answerChoice: ["A) <javascript>", "B) <scripted>", "C) <script>", "D) <js>"],
+    correctAnswer: 2
+  },
+  // ... rest of the questions ...
 ];
 
-// Countdown Timer
+// Countdown timer function
 const countdownTimerInterval = setInterval(setCountdownTimer, 1000);
 
 function setCountdownTimer() {
@@ -35,97 +42,102 @@ function setCountdownTimer() {
   document.getElementById("timer").innerHTML = time;
 }
 
-// Start Event Listener
+// Start event listener
 startBtn.addEventListener("click", function() {
   quizContainer.style.display = "block";
   homeContainer.style.display = "none";
   countdownTimer.style.display = "block";
   document.getElementById("score_keeper").style.display = "block";
-  scoreElement.innerHTML = score;
+  document.getElementById("score").innerHTML = score;
   setCountdownTimer();
   setQuizQuestions();
   timeStart = true;
 });
 
-// Questions Function
+// Set quiz questions
 function setQuizQuestions() {
-  const currentQuestion = questionsArray[i];
-  questionHeading.textContent = currentQuestion.question;
-  for (let j = 0; j < answerChoices.length; j++) {
-    answerChoices[j].textContent = currentQuestion.answerChoice[j];
-  }
+  questionHeading.textContent = questionsArray[questionIndex].question;
+  answerChoiceA.textContent = questionsArray[questionIndex].answerChoice[0];
+  answerChoiceB.textContent = questionsArray[questionIndex].answerChoice[1];
+  answerChoiceC.textContent = questionsArray[questionIndex].answerChoice[2];
+  answerChoiceD.textContent = questionsArray[questionIndex].answerChoice[3];
 }
 
-// Handle Answer Choice Clicks
-quizContainer.addEventListener('click', function(event) {
-  const selectedAnswer = event.target.textContent;
-  const correctAnswerIndex = questionsArray[i].correctAnswer;
-  if (selectedAnswer === questionsArray[i].answerChoice[correctAnswerIndex]) {
+// Event listeners for answer choices
+answerChoiceA.addEventListener('click', function(event) {
+  event.stopPropagation();
+  const correctAnswerIndex = questionsArray[questionIndex].correctAnswer;
+  if (0 === correctAnswerIndex) {
     document.getElementById("AnswerResponse").innerHTML = "Correct! Nailed it!";
+    setTimeout(function() {
+      document.getElementById("AnswerResponse").innerHTML = "";
+    }, 1000);
     score++;
+    document.getElementById("score").innerHTML = score;
   } else {
     timeRemaining -= 5;
     document.getElementById("AnswerResponse").innerHTML = "Incorrect! Better luck in the next one!";
+    setTimeout(function() {
+      document.getElementById("AnswerResponse").innerHTML = "";
+    }, 1000);
   }
-  setTimeout(function() {
-    document.getElementById("AnswerResponse").innerHTML = "";
-    if (i >= questionsArray.length - 1) {
-      endQuiz();
-    } else {
-      i++;
-      setQuizQuestions();
-    }
-  }, 1000);
-  scoreElement.innerHTML = score;
+  if (questionIndex >= questionsArray.length - 1) {
+    endQuiz();
+  } else {
+    questionIndex++;
+    setQuizQuestions();
+  }
 });
 
-// End Quiz
+// ... repeat the above event listeners for answerChoiceB, answerChoiceC, and answerChoiceD ...
+
+// End quiz function
 function endQuiz() {
   document.getElementById("game_over").style.display = "block";
-  quizContainer.style.display = "none";
-  countdownTimer.style.display = "none";
+  document.getElementById("quizContainer").style.display = "none";
+  document.getElementById("countdownTimer").style.display = "none";
   document.getElementById("score_keeper").style.display = "none";
   document.getElementById("AnswerResponse").innerHTML = "";
   document.getElementById("end_score").innerHTML = score;
 }
 
-// Submit Score
+// Submit score and initials
 function submitScore() {
-  const initials = document.getElementById("initials").value;
-  high_scores.push(`${initials} ${score}`);
+  highScores.push(document.getElementById("initials").value + " " + score);
   viewHighScores();
 }
 
-// View High Scores
+// View high scores
 function viewHighScores() {
   document.getElementById("quizContainer").style.display = "none";
   document.getElementById("game_over").style.display = "none";
   document.getElementById("high_scores_page").style.display = "block";
-  let output = "";
-  for (let k = 0; k < high_scores.length; k++) {
-    output += ` ${high_scores[k]}`;
+  
+  output = "";
+  for (let k = 0; k < highScores.length; k++) {
+    output += " " + highScores[k];
   }
   document.getElementById("high_scores").innerHTML = output;
   clearUp();
 }
 
-// Go Home
-function goHome() {
+// Go back to home page
+function goHome() {	
   document.getElementById("high_scores_page").style.display = "none";
   document.getElementById("homeContainer").style.display = "block";
   clearUp();
 }
 
-// Clear High Scores
+// Clear high scores
 function clearHighScores() {
-  high_scores = [];
+  highScores.splice(0, highScores.length);
 }
 
-// Clear Up
+// Clear up variables
 function clearUp() {
   time = 75;
   timeRemaining = true;
   timeStart = false;
-  i = 0;
+  questionIndex = 0;
   score = 0;
 }
