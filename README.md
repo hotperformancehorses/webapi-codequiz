@@ -19,3 +19,5 @@ Key Checks Included:
 
 5. When the game is over:
    - Then the user can save their initials and score.
+
+code sourced from forums, outside classmates, and tutoring. reused questions/awnsers from public github repo, wrote code with assistance from outside sources in tech careers
