@@ -51,3 +51,175 @@ question: "Question: Which of the following are capabilities of functions in Jav
 answerChoice: ["A) Return a value", "B) Accept parameters", "C) Accept parameters and Return a value", "D) All of the above"],
 correctAnswer: 1
 }];
+
+//countdown timer/variables.
+
+//change the seconds variable.
+var countdownTimerInterval = setInterval(setCountdownTimer, 1000);
+
+//function that changes the time var
+function setCountdownTimer() {
+        if (time_start)
+        time--;
+        if(time<= 0) {
+        end_quiz();
+        time = 0;    
+        // clearInterval(countdownTimerInterval);
+        // stop quiz
+        }
+        document.getElementById("timer").innerHTML = time;
+    }
+
+// When user clicks Start button, start the countdown timer and quiz questions. Add an event listener to each button.
+startBtn.addEventListener("click", function() {
+    quizContainer.style.display = "block";
+    homeContainer.style.display ="none";
+    countdownTimer.style.display= "block";
+    document.getElementById("score_keeper").style.display= "block";
+    document.getElementById("score").innerHTML = score;
+    setCountdownTimer();
+    setQuizQuestions();
+    time_start= true;
+});
+
+// Question Functions
+
+function setQuizQuestions() {
+        questionHeading.textContent = questionsArray[i].question;
+        answerChoiceA.textContent = questionsArray[i].answerChoice[0]; 
+        answerChoiceB.textContent = questionsArray[i].answerChoice[1]; 
+        answerChoiceC.textContent = questionsArray[i].answerChoice[2]; 
+        answerChoiceD.textContent = questionsArray[i].answerChoice[3]; 
+        };
+
+// When user answers a question: then user is presented with another question
+
+// Store user answer choices. Clear elements/update score count.
+
+// Change - next question
+answerChoiceA.addEventListener('click', function(event) {
+        event.stopPropagation();
+        correctAnswer= questionsArray[i].correctAnswer;
+        console.log("correctAnswer " + correctAnswer);
+        // check answer
+        if (0 === correctAnswer) { 
+            // display message to user for 1  second stating if the answer is correct or incorrect
+            document.getElementById("AnswerResponse").innerHTML = "Correct! Nailed it!";
+            setTimeout(function() {
+            document.getElementById("AnswerResponse").innerHTML = "";
+                },
+                1000
+            );
+            // when user answers a question correctly, increase the score
+            score++;    
+            // display updated score progress
+            document.getElementById("score").innerHTML = score;
+        } else {
+            time_remaining -= 5;
+            // when user answers a question inccorrectly, subtract from the time
+            document.getElementById("AnswerResponse").innerHTML = "Incorrect! Better luck in the next one!";
+            setTimeout(function() {
+                document.getElementById("AnswerResponse").innerHTML = "";
+                    },
+                    1000
+                );
+        }
+        if (i >= questionsArray.length -1) {
+        end_quiz();
+        } else {
+            i++ 
+            setQuizQuestions();
+        };
+    });
+
+answerChoiceB.addEventListener('click', function(event) {
+    event.stopPropagation();
+    correctAnswer = questionsArray[i].correctAnswer;
+    console.log(correctAnswer);
+        if (1 === correctAnswer) { 
+            document.getElementById("AnswerResponse").innerHTML = "Correct! Nailed it!";
+            setTimeout(function() {
+                document.getElementById("AnswerResponse").innerHTML = "";
+                    },
+                    1000
+                );
+            score++;
+            document.getElementById("score").innerHTML = score;
+        } else {
+            time_remaining -= 5;
+            document.getElementById("AnswerResponse").innerHTML = "Incorrect! Better luck in the next one!";
+            setTimeout(function() {
+                document.getElementById("AnswerResponse").innerHTML = "";
+                    },
+                    1000
+                );
+        }
+        if (i >= questionsArray.length -1) {
+        end_quiz();
+        } else {
+         i++ 
+        setQuizQuestions();
+        };
+    });
+
+answerChoiceC.addEventListener('click', function(event) {
+    event.stopPropagation();
+    correctAnswer = questionsArray[i].correctAnswer;
+    console.log(correctAnswer);
+    if (2 === correctAnswer) { 
+        document.getElementById("AnswerResponse").innerHTML = "Correct! Nailed it!";
+        setTimeout(function() {
+            document.getElementById("AnswerResponse").innerHTML = "";
+                },
+                1000
+            );
+        score++;
+        document.getElementById("score").innerHTML = score;
+    } else {
+        time_remaining -= 5;
+        document.getElementById("AnswerResponse").innerHTML = "Incorrect! Better luck in the next one!";
+        setTimeout(function() {
+            document.getElementById("AnswerResponse").innerHTML = "";
+                },
+                1000
+            );
+    }
+    if (i >= questionsArray.length -1) {
+    end_quiz();
+    } else {
+        i++ 
+        setQuizQuestions();
+    };
+    });
+
+answerChoiceD.addEventListener('click', function(event) {
+    event.stopPropagation();
+    correctAnswer= questionsArray[i].correctAnswer.value;
+    console.log(correctAnswer);
+    if (3 === correctAnswer) { 
+        document.getElementById("AnswerResponse").innerHTML = "Correct! Nailed it!";
+        setTimeout(function() {
+            document.getElementById("AnswerResponse").innerHTML = "";
+                },
+                1000
+            );
+        score++;
+        document.getElementById("score").innerHTML = score;
+    } else {
+        time_remaining -= 5;
+        document.getElementById("AnswerResponse").innerHTML = "Incorrect! Better luck in the next one!";
+        setTimeout(function() {
+            document.getElementById("AnswerResponse").innerHTML = "";
+                },
+                1000
+            );
+    }
+    if (i >= questionsArray.length -1) {
+       end_quiz();
+    } else {
+        i++ 
+        setQuizQuestions();
+    };
+});
+
+        //end
